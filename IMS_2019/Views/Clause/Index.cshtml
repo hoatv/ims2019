@@ -1,0 +1,181 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common;
+
+@model IMS_2019.ViewModel.ClauseVM
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                Clause List
+                <div class="card-header-actions">
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item" style="padding-right:5px">
+                            <button class="btn btn-block btn-warning" type="button" onclick="InsertClause()">Create</button>
+                            @*<a class="nav-link active" href="#">Active</a>*@
+                        </li>
+                        @*<li class="nav-item">
+                    <button id="btnTest" class="btn btn-block btn-warning" type="button">Warning</button>
+                </li>*@
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Clause No</th>
+                            <th>Clause Page</th>
+                            <th>Clause Content</th>
+                            <th>Doc version ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.listClause)
+                        {
+                        <tr>
+                            <td id="clause_id_@item." onclick="EditClause(@item.ClauseID)">
+                                <a href="#">@Html.DisplayFor(doc => item.ClauseID)</a>
+                            </td>
+                            @*<td>@Html.DisplayFor(doc => item.ClauseID)</td>*@
+                            <td>@Html.DisplayFor(doc => item.ClauseNo)</td>
+                            <td>@Html.DisplayFor(doc => item.ClausePage)</td>
+                            <td>@Html.DisplayFor(doc => item.ClauseContent)</td>
+                            <td>@Html.DisplayFor(doc => item.DocVersionID)</td>
+                            @*<td@Html.DisplayFor(doc => item.UpdatedAt)</÷>*@
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <ul class="pagination justify-content-center">
+                    @Html.PagedListPager(Model.listClause, page => Url.Action("Index", new { page = page }),
+                            new PagedListRenderOptions {
+                                LiElementClasses = new string[] { "page-item" },
+                                PageClasses = new string[] { "page-link" }})
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div id='myModalContent'></div>
+</div>
+
+<script src="~/lib/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSubmit').click(function () {
+            var document_old_id = $('#document_old_id').val();
+            var doctype_id = $("#listDocType option:selected").val();
+            var document_name = $('#document_name').val();
+            var version_id = $("#listVersion option:selected").val();
+            var url = $('#url').val();
+            var description = $('#description').val();
+            var doc_status_id = $("#listDocStatus option:selected").val();
+            var model = {
+                DocumentOldID: document_old_id,
+                DocumentTypeID: doctype_id,
+                DocumentName: document_name,
+                VersionID: version_id,
+                URL: url,
+                Description: description,
+                DocStatusID: doc_status_id
+            };
+            $.ajax({
+                url: "Document/AddNewDocument",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#documentInsert').modal('hide');
+                        notificationInsert('success');
+                        resetData();
+                    } else {
+                        notificationInsert('fail');
+                    }
+                }
+            });
+        });
+    });
+
+    function InsertClause() {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            type: "GET",
+            url: "Clause/_Detail",
+            contentType: "application/json; charset=utf-8",
+            data: {'id': '','actionType': 'insert' },
+            datatype: "json",
+            success: function (data) {
+                console.log(data);
+                $('#myModalContent').html(data);
+                $('#updateModal').modal(options);
+                $('#updateModal').modal('show');
+            },
+            error: function () {
+                console.log(data);
+                console.log("Dynamic content load failed.");
+            }
+        });
+    }
+
+    function EditClause(clause_id) {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            type: "GET",
+            url: "Clause/_Detail",
+            contentType: "application/json; charset=utf-8",
+            data: { 'id': clause_id, 'actionType': 'update' },
+            datatype: "json",
+            success: function (data) {
+                $('#myModalContent').html(data);
+                $('#updateModal').modal(options);
+                $('#updateModal').modal('show');
+            },
+            error: function () {
+                console.log("Dynamic content load failed.");
+            }
+        });
+    }
+
+
+
+    function resetData() {
+        $('#document_old_id').val('');
+        $("#listDocType option:selected").val('');
+        $('#document_name').val('');
+        $("#listVersion option:selected").val('');
+        $('#url').val('');
+        $('#description').val('');
+        $("#listDocStatus option:selected").val('');
+    }
+
+    function notificationInsert(result) {
+        var message = "Create fail";
+        var type = "warning";
+        if (result = "success") {
+            message = "Create success.";
+            type = "success";
+        }
+        $.notify({
+            //icon: '<span class="cui-action-undo" aria-hidden="true"></span>',
+            title: '<strong>System notify:</strong>',
+            message: message
+        }, {
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                type: type
+            });
+        location.reload();
+    }
+
+</script>

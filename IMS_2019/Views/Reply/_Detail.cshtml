@@ -1,0 +1,217 @@
+﻿@model IMS_2019.ViewModel.ReplyVM
+
+<div class="modal-dialog" role="document">
+    @if (Model.actionType.ToLower().Equals("insert"))
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Document Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body insert-form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="company">Reply ID Old</label>
+                        @Html.TextBoxFor(m => Model.replyModel.ReplyIDOld, new { @id = "reply_id_old", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Issue ID</label>
+                        @Html.DropDownListFor(x => Model.listIssue, new SelectList(Model.listIssue, "IssueID", "IssueIDOld"), new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => Model.replyModel.ReplyID, new { @id = "reply_id", @class = "form-control", required = true })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">Clause Issue ID</label>
+                        @Html.DropDownListFor(x => Model.listClauseIssueModels, new SelectList(Model.listClauseIssueModels, "ClauseIssueID", "ClauseIssueID"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Reply Content</label>
+                        @Html.TextBoxFor(m => Model.replyModel.ReplyContent, new { @id = "reply_content", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Email Sender</label>
+                        @Html.TextBoxFor(m => Model.replyModel.EmailSender, new { @id = "email_sender", @class = "form-control", required = true })
+                    </div>
+                    @*<div class="form-group">
+                            <label for="country">URL</label>
+                            @Html.TextBoxFor(m => Model.replyModel.URL, new { @id = "url", @class = "form-control", required = true })
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Desription</label>
+                            @Html.TextBoxFor(m => Model.replyModel.Description, new { @id = "description", @class = "form-control", required = true })
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Doc Status</label>
+                            @Html.DropDownListFor(x => Model.replyModel.DocStatusID, new SelectList(Model.listDocStatus, "DocStatusID", "DocStatusName"), new { @class = "form-control" })
+                        </div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnUpdate" type="button" class="btn btn-primary">Update changes</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Clause Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body update-form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="company">Reply ID Old</label>
+                        @Html.TextBoxFor(m => Model.replyModel.ReplyIDOld, new { @id = "reply_id_old", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Issue ID</label>
+                        @Html.DropDownListFor(x => Model.listIssue, new SelectList(Model.listIssue, "IssueID", "IssueIDOld"), new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => Model.replyModel.ReplyID, new { @id = "reply_id", @class = "form-control", required = true })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">Clause Issue ID</label>
+                        @Html.DropDownListFor(x => Model.listClauseIssueModels, new SelectList(Model.listClauseIssueModels, "ClauseIssueID", "ClauseIssueID"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Reply Content</label>
+                        @Html.TextBoxFor(m => Model.replyModel.ReplyContent, new { @id = "reply_content", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Email Sender</label>
+                        @Html.TextBoxFor(m => Model.replyModel.EmailSender, new { @id = "email_sender", @class = "form-control", required = true })
+                    </div>
+                    @*<div class="form-group">
+            <label for="country">URL</label>
+            @Html.TextBoxFor(m => Model.replyModel.URL, new { @id = "url", @class = "form-control", required = true })
+        </div>
+        <div class="form-group">
+            <label for="country">Desription</label>
+            @Html.TextBoxFor(m => Model.replyModel.Description, new { @id = "description", @class = "form-control", required = true })
+        </div>
+        <div class="form-group">
+            <label for="country">Doc Status</label>
+            @Html.DropDownListFor(x => Model.replyModel.DocStatusID, new SelectList(Model.listDocStatus, "DocStatusID", "DocStatusName"), new { @class = "form-control" })
+        </div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnUpdate" type="button" class="btn btn-primary">Update Clause</button>
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnInsert').click(function () {
+            var reply_id_old = $('.update-form #reply_id_old').val();
+            //var document_old_id = $('.update-form #document_old_id').val();
+            var issue_id = $(".update-form #listIssue option:selected").val();
+            var clause_issue_id = $(".update-form #listClauseIssueModels option:selected").val();
+            var reply_content = $('.update-form #reply_content').val();
+            var email_sender = $('.update-form #email_sender').val();
+            //var description = $('.update-form #description').val();
+            //var doc_status_id = $(".update-form #documentModel_DocStatusID option:selected").val();
+            var model = {
+                ReplyIDOld: reply_id_old,
+                IssueIDOld: issue_id,
+                IssueID: clause_issue_id,
+                DocumentName: reply_content,
+                EmailSender: email_sender
+                
+            };
+            $.ajax({
+                url: "Reply/Insert",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#updateModal').modal('hide');
+                        notificationUpdate('success');
+                        resetData();
+                    } else {
+                        notificationUpdate('fail');
+                    }
+                }
+            });
+        });
+
+
+        $('#btnUpdate').click(function () {
+            var reply_id_old = $('.update-form #reply_id_old').val();
+            //var document_old_id = $('.update-form #document_old_id').val();
+            var issue_id = $(".update-form #listIssue option:selected").val();
+            var clause_issue_id = $(".update-form #listClauseIssueModels option:selected").val();
+            var reply_content = $('.update-form #reply_content').val();
+            var email_sender = $('.update-form #email_sender').val();
+            //var description = $('.update-form #description').val();
+            //var doc_status_id = $(".update-form #documentModel_DocStatusID option:selected").val();
+            var model = {
+                DocumentID: document_id,
+                DocumentOldID: document_old_id,
+                DocumentTypeID: doctype_id,
+                DocumentName: document_name,
+                VersionID: version_id,
+                URL: url,
+                Description: description,
+                DocStatusID: doc_status_id
+            };
+            $.ajax({
+                url: "Reply/Update",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#updateModal').modal('hide');
+                        notificationUpdate('success');
+                        resetData();
+                    } else {
+                        notificationUpdate('fail');
+                    }
+                }
+            });
+        });
+    });
+
+    function resetData() {
+        $('.update-form #document_old_id').val('');
+        $(".update-form #listDocType option:selected").val('');
+        $('.update-form #document_name').val('');
+        $(".update-form #listVersion option:selected").val('');
+        $('.update-form #url').val('');
+        $('.update-form #description').val('');
+        $(".update-form #listDocStatus option:selected").val('');
+    }
+
+    function notificationUpdate(result) {
+        var message = "Update fail";
+        var type = "warning";
+        if (result = "success") {
+            message = "Update success.";
+            type = "success";
+        }
+        $.notify({
+            //icon: '<span class="cui-action-undo" aria-hidden="true"></span>',
+            title: '<strong>System notify:</strong>',
+            message: message
+        }, {
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                type: type
+            });
+        location.reload();
+    }
+
+
+</script>

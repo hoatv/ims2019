@@ -1,0 +1,128 @@
+﻿@model IMS_2019.ViewModel.DocumentVM
+
+<div class="modal-dialog" role="document">
+    hoatvvvvv
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Document Update</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body update-form">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="company">Document ID</label>
+                    @Html.TextBoxFor(m => Model.documentModel.DocumentID, new { @id = "document_id", @class = "form-control", @disabled = true })
+                </div>
+                <div class="form-group">
+                    <label for="company">Document Old ID</label>
+                    @Html.TextBoxFor(m => Model.documentModel.DocumentOldID, new { @id = "document_old_id", @class = "form-control", required = true })
+                </div>
+                <div class="form-group">
+                    <label for="vat">Type</label>
+                    @Html.DropDownListFor(x => Model.documentModel.DocumentTypeID, new SelectList(Model.listDocType, "DocTypeID", "Name"), new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label for="street">Name</label>
+                    @Html.TextBoxFor(m => Model.documentModel.DocumentName, new { @id = "document_name", @class = "form-control", required = true })
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-8">
+                        <label for="city">Version</label>
+                        @Html.DropDownListFor(x => Model.documentModel.VersionID, new SelectList(Model.listVersion, "VersionID", "VersionName"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="country">URL</label>
+                    @Html.TextBoxFor(m => Model.documentModel.URL, new { @id = "url", @class = "form-control", required = true })
+                </div>
+                <div class="form-group">
+                    <label for="country">Desription</label>
+                    @Html.TextBoxFor(m => Model.documentModel.Description, new { @id = "description", @class = "form-control", required = true })
+                </div>
+                <div class="form-group">
+                    <label for="country">Doc Status</label>
+                    @Html.DropDownListFor(x => Model.documentModel.DocStatusID, new SelectList(Model.listDocStatus, "DocStatusID", "DocStatusName"), new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="btnUpdate" type="button" class="btn btn-primary">Update changes</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnUpdate').click(function () {
+            var document_id = $('.update-form #document_id').val();
+            var document_old_id = $('.update-form #document_old_id').val();
+            var doctype_id = $(".update-form #documentModel_DocumentTypeID option:selected").val();
+            var document_name = $('.update-form #document_name').val();
+            var version_id = $(".update-form #documentModel_VersionID option:selected").val();
+            var url = $('.update-form #url').val();
+            var description = $('.update-form #description').val();
+            var doc_status_id = $(".update-form #documentModel_DocStatusID option:selected").val();
+            var model = {
+                DocumentID: document_id,
+                DocumentOldID: document_old_id,
+                DocumentTypeID: doctype_id,
+                DocumentName: document_name,
+                VersionID: version_id,
+                URL: url,
+                Description: description,
+                DocStatusID: doc_status_id
+            };
+            $.ajax({
+                url: "Document/UpdateDocument",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#updateModal').modal('hide');
+                        notificationUpdate('success');
+                        resetData();
+                    } else {
+                        notificationUpdate('fail');
+                    }
+                }
+            });
+        });
+    });
+
+    function resetData() {
+        $('.update-form #document_old_id').val('');
+        $(".update-form #listDocType option:selected").val('');
+        $('.update-form #document_name').val('');
+        $(".update-form #listVersion option:selected").val('');
+        $('.update-form #url').val('');
+        $('.update-form #description').val('');
+        $(".update-form #listDocStatus option:selected").val('');
+    }
+
+    function notificationUpdate(result) {
+        var message = "Update fail";
+        var type = "warning";
+        if (result = "success") {
+            message = "Update success.";
+            type = "success";
+        }
+        $.notify({
+            //icon: '<span class="cui-action-undo" aria-hidden="true"></span>',
+            title: '<strong>System notify:</strong>',
+            message: message
+        }, {
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                type: type
+            });
+        location.reload();
+    }
+
+
+</script>

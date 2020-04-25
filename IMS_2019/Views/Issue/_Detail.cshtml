@@ -1,0 +1,266 @@
+﻿@model IMS_2019.ViewModel.IssueVM
+
+<div class="modal-dialog" role="document">
+    @if (Model.actionType.ToLower().Equals("insert"))
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Issue Create</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body insert-form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="company">Issue Old ID</label>
+                        @Html.TextBoxFor(m => Model.issModel.IssueIDOld, new { @id = "issue_old_id", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Clause Issue ID</label>
+                        @Html.DropDownListFor(x => Model.listClauseIssue, new SelectList(Model.listClauseIssue, "ClauseIssueID", "ClauseIssueID"), new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => Model.clauseModel.ClauseOldID, new { @id = "document_id", @class = "form-control" })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">Clause Issue</label>
+                        @Html.DropDownListFor(x => Model.listClause, new SelectList(Model.listClause, "ClauseID", "ClauseNo"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Issue Content</label>
+                        @Html.TextBoxFor(m => Model.issModel.IssueContent, new { @id = "issue_content", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Clause No</label>
+                        @Html.TextBoxFor(m => Model.issModel.ClauseNo, new { @id = "clause_no", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Clause Page</label>
+                        @Html.TextBoxFor(m => Model.issModel.Clausepage, new { @id = "clause_page", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Email Sender</label>
+                        @Html.TextBoxFor(m => Model.issModel.EmailSender, new { @id = "email_sender", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Issue Status</label>
+                        @Html.DropDownListFor(x => Model.listIssStatus, new SelectList(Model.listIssStatus, "IssStatusID", "IssStatusName"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Email Processer</label>
+                        @Html.TextBoxFor(m => Model.issModel.EmailProcessorer, new { @id = "email_processor", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Next Step</label>
+                        @Html.TextBoxFor(m => Model.issModel.NextStep, new { @id = "next_step", @class = "form-control", required = true })
+                    </div>
+                    @*<div class="form-group">
+            <label for="country">Desription</label>
+            @Html.TextBoxFor(m => Model.clauseModel.Description, new { @id = "description", @class = "form-control", required = true })
+        </div>
+        <div class="form-group">
+            <label for="country">Doc Status</label>
+            @Html.DropDownListFor(x => Model.clauseModel.DocStatusID, new SelectList(Model.listDocStatus, "DocStatusID", "DocStatusName"), new { @class = "form-control" })
+        </div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnInsert" type="button" class="btn btn-primary">Create Issue</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Clause Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body update-form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="company">Issue ID</label>
+                        @Html.TextBoxFor(m => Model.issModel.IssueID, new { @id = "issue_id", @class = "form-control",@readonly = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Issue Old ID</label>
+                        @Html.TextBoxFor(m => Model.issModel.IssueIDOld, new { @id = "issue_old_id", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Clause Issue ID</label>
+                        @Html.DropDownListFor(x => Model.listClauseIssue, new SelectList(Model.listClauseIssue, "ClauseIssueID", "ClauseIssueID"), new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => Model.clauseModel.ClauseOldID, new { @id = "document_id", @class = "form-control" })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">Clause Issue</label>
+                        @Html.DropDownListFor(x => Model.listClause, new SelectList(Model.listClause, "ClauseID", "ClauseNo"), new { @class = "form-control" })
+                        @*@Html.DropDownListFor(x => Model.listClause, new SelectList(Model.listClauseIssue, "ClauseID", "ClauseNo"), new { @class = "form-control" })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Issue Content</label>
+                        @Html.TextBoxFor(m => Model.issModel.IssueContent, new { @id = "issue_content", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Clause No</label>
+                        @Html.TextBoxFor(m => Model.issModel.ClauseNo, new { @id = "clause_no", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Clause Page</label>
+                        @Html.TextBoxFor(m => Model.issModel.Clausepage, new { @id = "clause_page", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Email Sender</label>
+                        @Html.TextBoxFor(m => Model.issModel.EmailSender, new { @id = "email_sender", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Issue Status</label>
+                        @Html.DropDownListFor(x => Model.listIssStatus, new SelectList(Model.listIssStatus, "IssStatusID", "IssStatusName"), new { @class = "form-control" })
+                        @*@Html.DropDownListFor(x => Model.listIssStatus, new SelectList(Model.listVersion, "IssStatusID", "IssStatusName"), new { @class = "form-control" })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Email Processer</label>
+                        @Html.TextBoxFor(m => Model.issModel.EmailProcessorer, new { @id = "email_processor", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Next Step</label>
+                        @Html.TextBoxFor(m => Model.issModel.NextStep, new { @id = "next_step", @class = "form-control", required = true })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnUpdate" type="button" class="btn btn-primary">Update Clause</button>
+            </div>
+        </div>
+    }
+
+    @Html.HiddenFor(m=>m.actionType,new {@hidden = true })
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnInsert').click(function () {
+            var issue_old_id = $('.insert-form #issue_old_id').val();
+            var clause_issue_id = $(".insert-form #listClauseIssue option:selected").val();
+            var clause_id = $(".insert-form #listClause option:selected").val();
+            var issue_content = $('.insert-form #issue_content').val();
+            var clause_no = $(".insert-form #clause_no").val();
+            var clause_page = $('.insert-form #clause_page').val();
+            var email_sender = $('.insert-form #email_sender').val();
+            var issue_status_id = $('.insert-form #listIssStatus option:selected').val();
+            var email_processor = $('.insert-form #email_processor').val();
+            var next_step = $('.insert-form #next_step').val();
+            //var url = $('.insert-form #url').val();
+            //var description = $('.insert-form #description').val();
+            //var doc_status_id = $(".insert-form #documentModel_DocStatusID option:selected").val();
+            var model = {
+                IssueIDOld: issue_old_id,
+                ClauseIssueID: clause_issue_id,
+                ClauseID: clause_id,
+                IssueContent: issue_content,
+                ClauseNo: clause_no,
+                Clausepage: clause_page,
+                EmailSender: email_sender,
+                EmailProcessorer: email_processor,
+                NextStep: next_step
+            };
+            console.log(model);
+            $.ajax({
+                url: "Issue/Insert",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#updateModal').modal('hide');
+                        notificationUpdate('success');
+                        resetData();
+                    } else {
+                        notificationUpdate('fail');
+                    }
+                }
+            });
+        });
+        $('#btnUpdate').click(function () {
+            var issue_id = $('.update-form #issue_id').val();
+            var issue_old_id = $('.update-form #issue_old_id').val();
+            var clause_issue_id = $(".update-form #listClauseIssue option:selected").val();
+            var clause_id = $(".update-form #listClause option:selected").val();
+            var issue_content = $('.update-form #issue_content').val();
+            var clause_no = $(".update-form #clause_no").val();
+            var clause_page = $('.update-form #clause_page').val();
+            var email_sender = $('.update-form #email_sender').val();
+            var issue_status_id = $('.update-form #listIssStatus option:selected').val();
+            var email_processor = $('.update-form #email_processor').val();
+            var next_step = $('.update-form #next_step').val();
+            //var url = $('.insert-form #url').val();
+            //var description = $('.insert-form #description').val();
+            //var doc_status_id = $(".insert-form #documentModel_DocStatusID option:selected").val();
+            var model = {
+                IssueID: issue_id,
+                IssueIDOld: issue_old_id,
+                ClauseIssueID: clause_issue_id,
+                ClauseID: clause_id,
+                IssueContent: issue_content,
+                ClauseNo: clause_no,
+                Clausepage: clause_page,
+                EmailSender: email_sender,
+                IssueStatus_ID: issue_status_id,
+                EmailProcessorer: email_processor,
+                NextStep: next_step
+            };
+            console.log(model);
+            $.ajax({
+                url: "Issue/Update",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#updateModal').modal('hide');
+                        notificationUpdate('success');
+                        resetData();
+                    } else {
+                        notificationUpdate('fail');
+                    }
+                }
+            });
+        });
+    });
+
+    function resetData() {
+        $('.update-form #document_old_id').val('');
+        $(".update-form #listDocType option:selected").val('');
+        $('.update-form #document_name').val('');
+        $(".update-form #listVersion option:selected").val('');
+        $('.update-form #url').val('');
+        $('.update-form #description').val('');
+        $(".update-form #listDocStatus option:selected").val('');
+    }
+
+    function notificationUpdate(result) {
+        var message = "Update fail";
+        var type = "warning";
+        if (result = "success") {
+            message = "Update success.";
+            type = "success";
+        }
+        $.notify({
+            //icon: '<span class="cui-action-undo" aria-hidden="true"></span>',
+            title: '<strong>System notify:</strong>',
+            message: message
+        }, {
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                type: type
+            });
+        location.reload();
+    }
+
+
+</script>

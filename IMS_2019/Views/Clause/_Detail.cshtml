@@ -1,0 +1,225 @@
+﻿@model IMS_2019.ViewModel.ClauseVM
+
+<div class="modal-dialog" role="document">
+    @if (Model.actionType.ToLower().Equals("insert"))
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Clause Create</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body insert-form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="company">Clause Old ID</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClauseOldID, new { @id = "clause_old_id", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Document ID</label>
+                        @Html.DropDownListFor(x => Model.listDocument, new SelectList(Model.listDocument, "DocumentID", "DocumentName"), new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => Model.clauseModel.ClauseOldID, new { @id = "document_id", @class = "form-control" })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">Clause No</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClauseNo, new { @id = "clause_no", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Clause Page</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClausePage, new { @id = "clause_page", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Clause Content</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClauseContent, new { @id = "clause_content", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Version</label>
+                        @Html.DropDownListFor(x => Model.listVersion, new SelectList(Model.listVersion, "VersionID", "VersionName"), new { @class = "form-control" })
+                    </div>
+                    @*<div class="form-group">
+                            <label for="country">Desription</label>
+                            @Html.TextBoxFor(m => Model.clauseModel.Description, new { @id = "description", @class = "form-control", required = true })
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Doc Status</label>
+                            @Html.DropDownListFor(x => Model.clauseModel.DocStatusID, new SelectList(Model.listDocStatus, "DocStatusID", "DocStatusName"), new { @class = "form-control" })
+                        </div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnInsert" type="button" class="btn btn-primary">Create Clause</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Clause Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body update-form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="company">Clause ID</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClauseID, new { @id = "clause_id", @class = "form-control", @readonly = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Clause Old ID</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClauseOldID, new { @id = "clause_old_id", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Document ID</label>
+                        @Html.DropDownListFor(x => Model.clauseModel.DocumentID, new SelectList(Model.listDocument, "DocumentID", "DocumentName"), new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => Model.clauseModel.ClauseOldID, new { @id = "document_id", @class = "form-control" })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">Clause No</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClauseNo, new { @id = "clause_no", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Clause Page</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClausePage, new { @id = "clause_page", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Clause Content</label>
+                        @Html.TextBoxFor(m => Model.clauseModel.ClauseContent, new { @id = "clause_content", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Version</label>
+                        @Html.DropDownListFor(x => Model.clauseModel.DocVersionID, new SelectList(Model.listVersion, "VersionID", "VersionName"), new { @class = "form-control" })
+                    </div>
+                    @*<div class="form-group">
+                            <label for="country">Desription</label>
+                            @Html.TextBoxFor(m => Model.clauseModel.Description, new { @id = "description", @class = "form-control", required = true })
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Doc Status</label>
+                            @Html.DropDownListFor(x => Model.clauseModel.DocStatusID, new SelectList(Model.listDocStatus, "DocStatusID", "DocStatusName"), new { @class = "form-control" })
+                        </div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnUpdate" type="button" class="btn btn-primary">Update Clause</button>
+            </div>
+        </div>
+    }
+
+    @Html.HiddenFor(m=>m.actionType,new {@hidden = true })
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnInsert').click(function () {
+            var clause_old_id = $('.insert-form #clause_old_id').val();
+            var document_id = $(".insert-form #listDocument option:selected").val();
+            var clause_no = $('.insert-form #clause_no').val();
+            var clause_page = $(".insert-form #clause_page").val();
+            var clause_content = $('.insert-form #clause_content').val();
+            var version_id = $(".insert-form #listVersion option:selected").val();
+            //var url = $('.insert-form #url').val();
+            //var description = $('.insert-form #description').val();
+            //var doc_status_id = $(".insert-form #documentModel_DocStatusID option:selected").val();
+            var model = {
+                ClauseOldID: clause_old_id,
+                DocumentID: document_id,
+                ClauseNo: clause_no,
+                ClausePage: clause_page,
+                ClauseContent: clause_content,
+                DocVersionID: version_id
+            };
+            console.log(model);
+            $.ajax({
+                url: "Clause/InsertClause",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#updateModal').modal('hide');
+                        notificationUpdate('success');
+                        resetData();
+                    } else {
+                        notificationUpdate('fail');
+                    }
+                }
+            });
+        });
+        $('#btnUpdate').click(function () {
+            var clause_id = $('.update-form #clause_id').val();
+            var clause_old_id = $('.update-form #clause_old_id').val();
+            var document_id = $(".update-form #clauseModel_DocumentID option:selected").val();
+            var clause_no = $('.update-form #clause_no').val();
+            var clause_page = $(".update-form #clause_page").val();
+            var clause_content = $('.update-form #clause_content').val();
+            var version_id = $(".update-form #clauseModel_DocVersionID option:selected").val();
+            //var url = $('.insert-form #url').val();
+            //var description = $('.insert-form #description').val();
+            //var doc_status_id = $(".insert-form #documentModel_DocStatusID option:selected").val();
+            var model = {
+                ClauseID: clause_id,
+                ClauseOldID: clause_old_id,
+                DocumentID: document_id,
+                ClauseNo: clause_no,
+                ClausePage: clause_page,
+                ClauseContent: clause_content,
+                DocVersionID: version_id
+            };
+            console.log(model);
+            $.ajax({
+                url: "Clause/UpdateClause",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#updateModal').modal('hide');
+                        notificationUpdate('success');
+                        resetData();
+                    } else {
+                        notificationUpdate('fail');
+                    }
+                }
+            });
+        });
+    });
+
+    function resetData() {
+        $('.update-form #document_old_id').val('');
+        $(".update-form #listDocType option:selected").val('');
+        $('.update-form #document_name').val('');
+        $(".update-form #listVersion option:selected").val('');
+        $('.update-form #url').val('');
+        $('.update-form #description').val('');
+        $(".update-form #listDocStatus option:selected").val('');
+    }
+
+    function notificationUpdate(result) {
+        var message = "Update fail";
+        var type = "warning";
+        if (result = "success") {
+            message = "Update success.";
+            type = "success";
+        }
+        $.notify({
+            //icon: '<span class="cui-action-undo" aria-hidden="true"></span>',
+            title: '<strong>System notify:</strong>',
+            message: message
+        }, {
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                type: type
+            });
+        location.reload();
+    }
+
+
+</script>

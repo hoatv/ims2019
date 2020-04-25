@@ -1,0 +1,241 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common;
+
+@model IMS_2019.ViewModel.DocumentVM
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                Document List
+                <div class="card-header-actions">
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item" style="padding-right:5px">
+                            <button class="btn btn-block btn-warning" type="button" data-toggle="modal" data-target="#documentInsert">Create</button>
+                            @*<a class="nav-link active" href="#">Active</a>*@
+                        </li>
+                        @*<li class="nav-item">
+                                <button id="btnTest" class="btn btn-block btn-warning" type="button">Warning</button>
+                            </li>*@
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Document Name</th>
+                                <th>Description</th>
+                                <th>Version</th>
+                                <th>URL</th>
+                                <th>Clause No</th>
+                                <th>Status</th>
+                                <th>Created By</th>
+                                <th>Created At</th>
+                                <th>Updated By</th>
+                                <th>Updated At</th>
+                                @*<th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.listDocument)
+                            {
+                                <tr>
+                                    <td id="document_id_@item." onclick="EditDocument(@item.DocumentID)">
+                                        <a href="#">@Html.DisplayFor(doc => item.DocumentID)</a>
+                                    </td>
+                                    <td>@Html.DisplayFor(doc => item.DocumentName)</td>
+                                    <td>@Html.DisplayFor(doc => item.Description)</td>
+                                    <td>@Html.DisplayFor(doc => item.VersionName)</td>
+                                    <td>@Html.DisplayFor(doc => item.URL)</td>
+                                    <td>@Html.DisplayFor(doc => item.DocTypeName)</td>
+                                    <td>@Html.DisplayFor(doc => item.DocStatusName)</td>
+                                    <td>@Html.DisplayFor(doc => item.CreatorName)</td>
+                                    <td>@Html.DisplayFor(doc => item.CreatedAt)</td>
+                                    <td>@Html.DisplayFor(doc => item.UpdatedName)</td>
+                                    <td>@Html.DisplayFor(doc => item.UpdatedAt)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <ul class="pagination justify-content-center">
+                        @Html.PagedListPager(Model.listDocument, page => Url.Action("Index", new { page = page }),
+                                new PagedListRenderOptions {
+                                    LiElementClasses = new string[] { "page-item" },
+                                    PageClasses = new string[] { "page-link" }})
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="documentInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Document Insert</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="company">Document Old ID</label>
+                        @Html.TextBoxFor(m => Model.documentModel.DocumentOldID, new { @id = "document_old_id", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="vat">Type</label>
+                        @Html.DropDownListFor(x => Model.listDocType, new SelectList(Model.listDocType, "DocTypeID", "Name"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Name</label>
+                        @Html.TextBoxFor(m => Model.documentModel.DocumentName, new { @id = "document_name", @class = "form-control", required = true })
+                        <span id="value">&nbsp;</span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-8">
+                            <label for="city">Version</label>
+                            @Html.DropDownListFor(x => Model.listVersion, new SelectList(Model.listVersion, "VersionID", "VersionName"), new { @class = "version-select form-control" })
+                            @*<input id="test_input" type="text" />*@
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">URL</label>
+                        @Html.TextBoxFor(m => Model.documentModel.URL, new { @id = "url", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Desription</label>
+                        @Html.TextBoxFor(m => Model.documentModel.Description, new { @id = "description", @class = "form-control", required = true })
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Doc Status</label>
+                        @Html.DropDownListFor(x => Model.listDocStatus, new SelectList(Model.listDocStatus, "DocStatusID", "DocStatusName"), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnSubmit" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="documentInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div id='myModalContent'></div>
+    </div>
+</div>
+
+@*</div>*@
+<script src="~/lib/jquery/jquery-3.4.1.min.js"></script>
+@*<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select.version-select").flexselect();
+
+        $('#btnSubmit').click(function () {
+            //console.log($('#listVersion_flexselect').text());
+            var tmp_version_name = $('#listVersion_flexselect').text();
+            var document_old_id = $('#document_old_id').val();
+            var doctype_id = $("#listDocType option:selected").val();
+            var document_name = $('#document_name').val();
+            var version_id = $("#listVersion option:selected").val();
+            var version_name = $("#listVersion option:selected").text();
+            if (version_name == null || version_name == undefined || version_name == "") {
+                version_name = tmp_version_name;
+            }
+            var url = $('#url').val();
+            var description = $('#description').val();
+            var doc_status_id = $("#listDocStatus option:selected").val();
+            var model = {
+                DocumentOldID: document_old_id,
+                DocumentTypeID: doctype_id,
+                DocumentName: document_name,
+                VersionID: version_id,
+                VersionName: version_name,
+                URL: url,
+                Description: description,
+                DocStatusID: doc_status_id
+            };
+            console.log(model);
+            $.ajax({
+                url: "Document/AddNewDocument",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log("insert result:" + result);
+                    if (parseInt(result) >= 0) {
+                        $('#documentInsert').modal('hide');
+                        notificationInsert('success');
+                        resetData();
+                    } else {
+                        notificationInsert('fail');
+                    }
+                }
+            });
+        });
+    });
+
+    function EditDocument(document_id) {
+        alert(1111);
+        var options = { "backdrop": "static", keyboard: true };
+        //$('#updateModal').modal(options);
+        //$('#updateModal').modal('show');
+        $.ajax({
+            type: "GET",
+            url: "Document/_Detail",
+            contentType: "application/json; charset=utf-8",
+            data: { "id": document_id },
+            datatype: "json",
+            success: function (data) {
+                $('#myModalContent').html(data);
+                $('#updateModal').modal(options);
+                $('#updateModal').modal('show');
+            },
+            error: function () {
+                console.log("Dynamic content load failed.");
+            }
+        });
+    }
+
+
+
+    function resetData() {
+        $('#document_old_id').val('');
+        $("#listDocType option:selected").val('');
+        $('#document_name').val('');
+        $("#listVersion option:selected").val('');
+        $('#url').val('');
+        $('#description').val('');
+        $("#listDocStatus option:selected").val('');
+    }
+
+    function notificationInsert(result) {
+        var message = "Create fail";
+        var type = "warning";
+        if (result = "success") {
+            message = "Create success.";
+            type = "success";
+        }
+        $.notify({
+            //icon: '<span class="cui-action-undo" aria-hidden="true"></span>',
+            title: '<strong>System notify:</strong>',
+            message: message
+        }, {
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                type: type
+            });
+        location.reload();
+    }
+</script>

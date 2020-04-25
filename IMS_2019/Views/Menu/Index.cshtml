@@ -1,0 +1,274 @@
+﻿@model IMS_2019.ViewModel.MenuViewModel
+@{
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                @ViewBag.Title
+                <div class="card-header-actions">
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item" style="padding-right:5px">
+                            <button class="btn btn-block btn-warning" type="button" onclick="Insert(@Model.type)">Create</button>
+                            @*<a class="nav-link active" href="#">Active</a>*@
+                        </li>
+                        @*<li class="nav-item">
+                                <button id="btnTest" class="btn btn-block btn-warning" type="button">Warning</button>
+                            </li>*@
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive table-bordered" style="display: inline-table !important;">
+                    <thead>
+                        <tr>
+                            @if (ViewBag.Title == "List User")
+                            {
+                                <th>ID</th>
+                                <th>User Group ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Created By</th>
+                                <th>Updated By</th>
+                            }
+                            else
+                            {
+                                <th>ID</th>
+                                @if (ViewBag.Title == "List Group")
+                                {
+                                    <th>User Group ID</th>
+                                }
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Created By</th>
+                                <th>Updated By</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Title == "List User")
+                        {
+                            foreach (var docItem in Model.listUser)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(doc => docItem.UserID)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.UserGroupID)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.UserName)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.UserEmail)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.UserPhone)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.CreatedBy)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.UpdatedBy)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.CreatedAt)</td>
+                                    <td>@Html.DisplayFor(doc => docItem.UpdatedAt)</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            @if (Model.listDocStatus != null)
+                            {
+                                foreach (var docItem in Model.listDocStatus)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(doc => docItem.DocStatusID)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.DocStatusName)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.DocStatusDescription)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedAt)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedAt)</td>
+                                    </tr>
+                                }
+                            }
+                            else if (Model.listDocType != null)
+                            {
+                                foreach (var docItem in Model.listDocType)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(doc => docItem.DocTypeID)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.Name)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.Description)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedAt)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedAt)</td>
+                                    </tr>
+                                }
+                            }
+                            else if (Model.listIssStatusModel != null)
+                            {
+                                foreach (var docItem in Model.listIssStatusModel)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(doc => docItem.IssStatusID)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.IssStatusName)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.IssStatusDescription)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedAt)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedAt)</td>
+                                    </tr>
+                                }
+
+                            }
+                            else if (Model.listGroup != null)
+                            {
+                                foreach (var docItem in Model.listGroup)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(doc => docItem.GroupID)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UserGroupID)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.GroupName)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.GroupDescription)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedAt)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedAt)</td>
+                                    </tr>
+                                }
+                            }
+                            else if (Model.listVersion != null)
+                            {
+                                foreach (var docItem in Model.listVersion)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(doc => docItem.VersionID)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.VersionName)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.VersionDescription)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedBy)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.CreatedAt)</td>
+                                        <td>@Html.DisplayFor(doc => docItem.UpdatedAt)</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.HiddenFor(m=>m.type)
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div id='myModalContent'></div>
+</div>
+<script src="~/lib/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSubmit').click(function () {
+            var document_old_id = $('#document_old_id').val();
+            var doctype_id = $("#listDocType option:selected").val();
+            var document_name = $('#document_name').val();
+            var version_id = $("#listVersion option:selected").val();
+            var url = $('#url').val();
+            var description = $('#description').val();
+            var doc_status_id = $("#listDocStatus option:selected").val();
+            var model = {
+                DocumentOldID: document_old_id,
+                DocumentTypeID: doctype_id,
+                DocumentName: document_name,
+                VersionID: version_id,
+                URL: url,
+                Description: description,
+                DocStatusID: doc_status_id
+            };
+            $.ajax({
+                url: "Document/AddNewDocument",
+                method: "POST",
+                data: JSON.stringify(model),
+                contentType: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == 'success') {
+                        $('#documentInsert').modal('hide');
+                        notificationInsert('success');
+                        resetData();
+                    } else {
+                        notificationInsert('fail');
+                    }
+                }
+            });
+        });
+    });
+
+    function Insert(actionType) {
+        if (actionType == "version") {
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: "Menu/_Detail",
+                contentType: "application/json; charset=utf-8",
+                data: { 'id': '', 'actionType': 'insert' },
+                datatype: "json",
+                success: function (data) {
+                    console.log(data);
+                    $('#myModalContent').html(data);
+                    $('#updateModal').modal(options);
+                    $('#updateModal').modal('show');
+                },
+                error: function () {
+                    console.log(data);
+                    console.log("Dynamic content load failed.");
+                }
+            });
+        }
+    }
+
+    function Edit(id) {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            type: "GET",
+            url: "Issue/_Detail",
+            contentType: "application/json; charset=utf-8",
+            data: { 'id': id, 'actionType': 'update' },
+            datatype: "json",
+            success: function (data) {
+                $('#myModalContent').html(data);
+                $('#updateModal').modal(options);
+                $('#updateModal').modal('show');
+            },
+            error: function () {
+                console.log("Dynamic content load failed.");
+            }
+        });
+    }
+
+    function resetData() {
+        $('#document_old_id').val('');
+        $("#listDocType option:selected").val('');
+        $('#document_name').val('');
+        $("#listVersion option:selected").val('');
+        $('#url').val('');
+        $('#description').val('');
+        $("#listDocStatus option:selected").val('');
+    }
+
+    function notificationInsert(result) {
+        var message = "Create fail";
+        var type = "warning";
+        if (result = "success") {
+            message = "Create success.";
+            type = "success";
+        }
+        $.notify({
+            //icon: '<span class="cui-action-undo" aria-hidden="true"></span>',
+            title: '<strong>System notify:</strong>',
+            message: message
+        }, {
+                placement: {
+                    from: "bottom",
+                    align: "left"
+                },
+                type: type
+            });
+        location.reload();
+    }
+
+</script>
